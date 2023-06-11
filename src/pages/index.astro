@@ -1,14 +1,175 @@
 ---
-import {getUser} from '../auth';
-const user = await getUser(Astro.request);
+// Importing required packages
+import * as cheerio from 'cheerio'
+import { LoremIpsum } from 'lorem-ipsum'
+import Frame from '@layouts/frame.astro'
 
-import Social from '../components/Social.astro';
-import Layout from '../layouts/Layout.astro';
+const endpoint = "https://viralcuts.co"
+const { pathname } = Astro.url;
+// Fetching the HTML data
+const data = await fetch(
+  endpoint
+)
 
-import {Content} from './content/content-home.md';
+// Getting the HTML text
+const html = await data.text()
+
+// Loading the HTML into cheerio
+const $ = cheerio.load(html)
+
+// // Initializing lorem-ipsum generator
+const lorem = new LoremIpsum()
+
+$('head').append('<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>');
+
+// Add the 'text-green-500' class to all h1 elements
+$('h1').each(function(i, elem) {
+  $(this).addClass('text-green-500');
+});
+
+// Check if a main tag exists
+// Check if a main tag exists
+if ($('body main').length === 0) {
+  // No main tag found. Find the div with the most nested elements.
+  let maxCount = 0;
+  let maxElement = null;
+
+  $('body div').each(function (i, elem) {
+    let count = $(this).find('*').length; // count all nested elements
+    if (count > maxCount) {
+      maxCount = count;
+      maxElement = this;
+    }
+  });
+  if (maxElement !== null) {
+    // Clone the div with the most nested elements
+    let newMain = $(maxElement).clone();
+    // Replace the div tag with a main tag
+    let newMainStr = $.html(newMain);
+    newMainStr = newMainStr.split('<div').join('<main').split('</div>').join('</main>');
+    // Replace the original div with the new main
+    $(maxElement).replaceWith(newMainStr);
+
+    // Change all direct div children of the main tag to section tags
+   
+  }
+}
+
+$('main').children('main').each(function (i, elem) {
+      // Clone the div
+      let newSection = $(this).clone();
+      // Replace the div tag with a section tag
+      let newSectionStr = $.html(newSection);
+      newSectionStr = newSectionStr.split('<main').join('<section').split('</main>').join('</section>');
+      // Replace the original div with the new section
+      $(this).replaceWith(newSectionStr);
+    });
+
+
+    $('section').children('section').each(function (i, elem) {
+      // Clone the div
+      let newSection = $(this).clone();
+      // Replace the div tag with a section tag
+      let newSectionStr = $.html(newSection);
+      newSectionStr = newSectionStr.split('<section').join('<div').split('</section>').join('</div>');
+      // Replace the original div with the new section
+      $(this).replaceWith(newSectionStr);
+    });
+
+
+// $('link[href]').each((i, el) => {
+//   const $el = $(el);
+//   const href = $el.attr('href');
+//   $el.attr('href', endpoint + href);
+// });
+
+// $('link[src], script[src], img[src]').each((i, el) => {
+//   const $el = $(el);
+//   const src = $el.attr('src');
+//   $el.attr('src', endpoint + src);
+// });
+
+
+// Looping over each selected HTML element and replacing the text
+$('p, h1, h2, h3, h4, h5, h6, li, span, b, strong, i, em, mark, small, del, ins, sub, sup').each(
+  function () {
+    const text = $(this).text()
+    if (!text.toLowerCase().includes('artisan')) {
+      const words = text.trim().split(/\s+/).length
+      const loripsum = lorem.generateWords(words)
+      $(this).text(loripsum)
+    }
+    $(this).attr('contenteditable', 'true')
+  }
+)
+
+// Divs with innerText are now editable
+
+$('div').each(function(i, elem) {
+  // check if the div directly contains text (and not other elements)
+  if ($(this).contents().length === 1 && $(this).contents()[0].type === 'text') {
+    // add the contenteditable attribute
+    $(this).attr('contenteditable', 'true');
+  }
+});
+
+// Looping over each div child of '.nav-float-indicator' and replacing it with a 'section'
+// $('.nav-float-indicator > div').each(function () {
+//   const section = $('<section></section>')
+//   section.html($(this).html())
+//   section.attr($(this).attr())
+//   $(this).replaceWith(section)
+// })
+
+// Finding the '#__next' element and replacing it with 'main' if it exists
+// const nextElement = $('#__next')
+
+// if (nextElement.length) {
+//   const main = $('<main></main>')
+//   main.html(nextElement.html())
+//   main.attr(nextElement.attr())
+//   main.attr('id', '__artisan')
+//   main.attr('class', '')
+//   nextElement.replaceWith(main)
+// }
+
+// Looping over each 'link' element and fixing the href
+$('link').each(function () {
+  const href = $(this).attr('href')
+  // add type text/css to link
+  $(this).attr('type', 'text/css')
+  if (href && !href.startsWith('/') && !href.startsWith('http')) {
+    $(this).attr('href', '/' + href)
+  }
+})
+
+// Looping over each element with a 'data-src' attribute and fixing the src
+$('[data-src]').each(function () {
+  const dataSrc = $(this).attr('data-src')
+  if (dataSrc && !dataSrc.startsWith('/') && !dataSrc.startsWith('http')) {
+    $(this).attr('data-src', '/' + dataSrc)
+  }
+})
+
+// Looping over each 'script' element and fixing the src
+$('script').each(function () {
+  const src = $(this).attr('src')
+  if (src && !src.startsWith('/') && !src.startsWith('http')) {
+    $(this).attr('src', '/' + src)
+  }
+})
+
+$('.loader-component').remove()
+$('.fc-3xgLq').remove();
+
+// Looping over each 'img' element and fixing the src
+const head = $('head').html()
+
+const Blocks = $('html').html()
+
+
 ---
 
-<Layout title="Astro + Supabase + Vercel" user={user}>
-    <Content />
-    <Social />
-</Layout>
+<Frame head={head}>
+  <iframe srcdoc={Blocks} class="w-screen h-screen m-0" />
+</Frame>

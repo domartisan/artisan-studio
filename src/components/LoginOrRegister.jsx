@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { supabase } from "../auth";
+import { useState } from 'react';
+import { supabase } from '../auth';
 
 function Spinner() {
   return (
@@ -25,15 +25,15 @@ function Spinner() {
 }
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [status, setStatus] = useState({
-    error: "",
+    error: '',
     success: false,
     isLoading: false,
   });
 
   const handleSendLink = async () => {
-    setStatus({ error: "", success: false, isLoading: true });
+    setStatus({ error: '', success: false, isLoading: true });
 
     const { error } = await supabase.auth.signInWithOtp(
       {
@@ -41,7 +41,7 @@ export default function Login() {
       },
       {
         redirectTo: import.meta.env.PUBLIC_REDIRECT_URL,
-      }
+      },
     );
 
     if (error?.message) {
@@ -51,7 +51,7 @@ export default function Login() {
         isLoading: false,
       }));
     } else {
-      setStatus({ error: "", success: true, isLoading: false });
+      setStatus({ error: '', success: true, isLoading: false });
     }
   };
 
@@ -69,14 +69,14 @@ export default function Login() {
           type="text"
           placeholder="Email"
           value={email}
-          onChange={(v) => setEmail(v.target.value)}
+          onChange={v => setEmail(v.target.value)}
         />
         {status.error ? (
           <div className="text-sm text-red-400">{status.error}</div>
         ) : null}
         {status.success ? (
           <div className="text-sm text-green-600">
-            An email should arrive in your inbox shortly{" "}
+            An email should arrive in your inbox shortly{' '}
           </div>
         ) : null}
       </div>

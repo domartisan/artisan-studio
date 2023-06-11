@@ -10,6 +10,6 @@ Whenever the user visits a protected site (under /about/), the server verifies t
 const user = await getUser(Astro.request);
 
 if (!user) {
-  return Astro.redirect("/login");
+  return Astro.redirect('/login');
 }
 ```

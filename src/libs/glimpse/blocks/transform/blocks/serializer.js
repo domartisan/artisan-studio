@@ -10,27 +10,27 @@
  * @return {string} Comment-delimited block content.
  */
 export function getCommentDelimitedContent(rawBlockName, attributes, content) {
-	const serializedAttributes =
-		attributes && Object.entries(attributes).length
-			? serializeAttributes(attributes) + ' '
-			: ''
+  const serializedAttributes =
+    attributes && Object.entries(attributes).length
+      ? serializeAttributes(attributes) + ' '
+      : '';
 
-	// Strip core blocks of their namespace prefix.
-	const blockName = rawBlockName?.startsWith('core/')
-		? rawBlockName.slice(5)
-		: rawBlockName
+  // Strip core blocks of their namespace prefix.
+  const blockName = rawBlockName?.startsWith('core/')
+    ? rawBlockName.slice(5)
+    : rawBlockName;
 
-	// @todo make the `wp:` prefix potentially configurable.
+  // @todo make the `wp:` prefix potentially configurable.
 
-	if (!content) {
-		return `<!-- wp:${blockName} ${serializedAttributes}/-->`
-	}
+  if (!content) {
+    return `<!-- wp:${blockName} ${serializedAttributes}/-->`;
+  }
 
-	return (
-		`<!-- wp:${blockName} ${serializedAttributes}-->\n` +
-		content +
-		`\n<!-- /wp:${blockName} -->`
-	)
+  return (
+    `<!-- wp:${blockName} ${serializedAttributes}-->\n` +
+    content +
+    `\n<!-- /wp:${blockName} -->`
+  );
 }
 
 /**
@@ -42,22 +42,22 @@ export function getCommentDelimitedContent(rawBlockName, attributes, content) {
  * @return {string} Serialized attributes.
  */
 export function serializeAttributes(attributes) {
-	return (
-		JSON.stringify(attributes)
-			// Don't break HTML comments.
-			.replace(/--/g, '\\u002d\\u002d')
+  return (
+    JSON.stringify(attributes)
+      // Don't break HTML comments.
+      .replace(/--/g, '\\u002d\\u002d')
 
-			// Don't break non-standard-compliant tools.
-			.replace(/</g, '\\u003c')
-			.replace(/>/g, '\\u003e')
-			.replace(/&/g, '\\u0026')
+      // Don't break non-standard-compliant tools.
+      .replace(/</g, '\\u003c')
+      .replace(/>/g, '\\u003e')
+      .replace(/&/g, '\\u0026')
 
-			// Bypass server stripslashes behavior which would unescape stringify's
-			// escaping of quotation mark.
-			//
-			// See: https://developer.wordpress.org/reference/functions/wp_kses_stripslashes/
-			.replace(/\\"/g, '\\u0022')
-	)
+      // Bypass server stripslashes behavior which would unescape stringify's
+      // escaping of quotation mark.
+      //
+      // See: https://developer.wordpress.org/reference/functions/wp_kses_stripslashes/
+      .replace(/\\"/g, '\\u0022')
+  );
 }
 
 // extracted from `node_modules/@wordpress/blocks/src/api/parser/serialize-raw-block.js`
@@ -90,29 +90,29 @@ export function serializeAttributes(attributes) {
  * @return {string} An HTML string representing a block.
  */
 export function serializeRawBlock(rawBlock, options = {}) {
-	const { isCommentDelimited = true } = options
-	const {
-		blockName,
-		attrs = {},
-		innerBlocks = [],
-		innerContent = []
-	} = rawBlock
+  const { isCommentDelimited = true } = options;
+  const {
+    blockName,
+    attrs = {},
+    innerBlocks = [],
+    innerContent = [],
+  } = rawBlock;
 
-	let childIndex = 0
-	const content = innerContent
-		.map((item) =>
-			// `null` denotes a nested block, otherwise we have an HTML fragment.
-			item !== null
-				? item
-				: serializeRawBlock(innerBlocks[childIndex++], options)
-		)
-		.join('\n')
-		.replace(/\n+/g, '\n')
-		.trim()
+  let childIndex = 0;
+  const content = innerContent
+    .map(item =>
+      // `null` denotes a nested block, otherwise we have an HTML fragment.
+      item !== null
+        ? item
+        : serializeRawBlock(innerBlocks[childIndex++], options),
+    )
+    .join('\n')
+    .replace(/\n+/g, '\n')
+    .trim();
 
-	return isCommentDelimited
-		? getCommentDelimitedContent(blockName, attrs, content)
-		: content
+  return isCommentDelimited
+    ? getCommentDelimitedContent(blockName, attrs, content)
+    : content;
 }
 
 // modified to use `serializeRawBlock`
@@ -126,8 +126,8 @@ export function serializeRawBlock(rawBlock, options = {}) {
  * @return {string} The post content.
  */
 export default function serialize(blocks, options) {
-	const blocksArray = Array.isArray(blocks) ? blocks : [blocks]
-	return blocksArray
-		.map((block) => serializeRawBlock(block, options))
-		.join('\n\n')
+  const blocksArray = Array.isArray(blocks) ? blocks : [blocks];
+  return blocksArray
+    .map(block => serializeRawBlock(block, options))
+    .join('\n\n');
 }
