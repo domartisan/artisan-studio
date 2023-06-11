@@ -1,52 +1,62 @@
-# Astro-Supabase-Vercel
+# Artisan Studio [DEV]
 
-This repo contains an example app showcasing how to use [**Supabase**](https://supabase.com/) authentication with
-[**Astro**](https://astro.build). We use **Supabase** is used for user sign-up and authentication, and Astro for
-a mix of static site generation **(SSG)**, and server side rendering **(SSR)**. The app is deployed to
-[**Vercel**](https://vercel.com).
-
-### Demo
-
-Check out the demo
-at: [astro-supabase-vercel-git-main-magnuswahlstrand.vercel.app](https://astro-supabase-vercel-git-main-magnuswahlstrand.vercel.app/)
 .
+├── auth.ts                 # Auth related typescript functions
+├── components              # Contains JSX & Astro components used throughout the project
+│   ├── LoginOrRegister.jsx # React component for handling user registration and login
+│   ├── LoginStatus.astro   # Astro component displaying current user login status
+│   └── Social.astro        # Astro component handling social login features
+├── env.d.ts                # Type declaration file for environment variables
+├── hooks                   # Directory for custom hooks
+├── layouts                 # Astro layouts, reusable website page structures
+│   └── Layout.astro        # Main layout file used by Astro
+├── libs                    # Contains JavaScript/TypeScript libraries
+│   ├── artisan             # Directory for 'artisan' library
+│   │   └── _main.js        # Main entry point for the 'artisan' library
+│   ├── blocks              # Contains functionality related to 'blocks'
+│   │   ├── ConvertBlocks.ts # TypeScript file for converting blocks
+│   │   ├── block.types.ts   # TypeScript definitions for blocks
+│   │   ├── clean.ts         # Functionality for cleaning blocks
+│   │   ├── nodes.ts         # Node related functionality for blocks
+│   │   ├── syncMigration.ts # Syncing and migration utility for blocks
+│   │   └── utils.ts         # Utility functions for blocks
+│   └── glimpse             # Glimpse library related files
+│       ├── blocks
+│       │   └── transform   # Directory for transform functionality of blocks
+│       ├── clean.mjs       # Cleaning functionality for 'glimpse'
+│       ├── fields
+│       │   ├── TypesController  # Directory that may contain various type controllers
+│       │   └── generate.mjs     # Generate functionality for fields
+│       └── process
+│           ├── SourceImages.mjs # Processing functionality for source images
+│           ├── absolute.mjs     # Absolute value functionality
+│           ├── nodes.mjs        # Node related functionality for 'glimpse'
+│           ├── remove.mjs       # Remove functionality for 'glimpse'
+│           ├── restructure.mjs  # Restructuring functionality
+│           └── wireframe.mjs    # Wireframing functionality
+├── middleware                # Contains Express.js middleware
+├── pages                     # Astro pages - each represents a route
+│   ├── about                 # About page and related components
+│   │   ├── astro.astro
+│   │   ├── supabase.astro
+│   │   └── vercel.astro
+│   ├── api                   # Api endpoint pages
+│   │   ├── fields.ts
+│   │   └── login.astro
+│   ├── content               # Content pages
+│   │   ├── content-astro.md
+│   │   ├── content-home.md
+│   │   ├── content-supabase.md
+│   │   └── content-vercel.md
+│   ├── flutter.astro         # Flutter page
+│   ├── framer.astro          # Framer page
+│   ├── ghost.astro           # Ghost page
+│   ├── index.astro           # Home page
+│   ├── login.astro           # Login page
+│   ├── logout.astro          # Logout page
+│   ├── magic-link.astro      # Magic link page
+│   ├── shopify.astro         # Shopify page
+│  │   └── wordpress.astro       # Wordpress page
+└── utils                     # Contains utility functions used throughout the project
+    └── new.routes.mjs        # Utility for defining new routes in the application
 
-### Limitations
-
-- To improve security, the cookies for this app should be **Secure** and **HttpOnly** cookies.
-- We don't handle automatic renewal of JWTs.
-- Error handling is minimal
-
-# Development log
-
-### Todo
-
-- [ ] Proper error handling for expired JWTs
-- [ ] Fix Secure and HttpOnly cookies
-
-#### Done
-
-- [x] Add social media preview
-- [x] Add tailwind
-- [x] Build login screen
-- [x] Build register screen
-- [x] Add spinner for link
-- [x] Remove Supabase key from code
-- [x] Fix redirects after logout
-- [x] Add outline to README
-- [x] Common auth part for all sub pages
-- [x] Remove console.log()
-- [x] Clean up code
-- [x] Redirect after sign in
-- [x] Add 2 paragraphs of text per about page
-- [x] **Minor**
-  - [x] Fix margin bottom
-  - [x] Remove content on 2nd paragraph
-  - [x] Fix page titles
-
-### Notes and questions
-
-- Can we set server side cookie AND redirect? - Yes
-- https://docs.astro.build/en/guides/server-side-rendering/#astrorequestheaders
-- `npm install @astrojs/vercel`
-- **Problems** \*`<MyAuth client:only="react">`
