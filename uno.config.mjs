@@ -1,10 +1,21 @@
-const fontFamily = require("tailwindcss/defaultTheme").fontFamily;
+// uno.config.ts
+import { defineConfig } from 'unocss'
+import { presetAttributify, presetWind, presetUno, transformerAttributifyJsx, transformerDirectives, transformerVariantGroup } from 'unocss'
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  darkMode: ["class"],
+export default defineConfig({
+       darkMode: ["class"],
   content: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
-  theme: {
+    presets: [
+        presetAttributify(),
+        presetWind(),
+        presetUno(),
+    ],
+    transformers: [
+        transformerAttributifyJsx(),
+        transformerDirectives(),
+        transformerVariantGroup(),
+    ],
+    theme: {
     container: {
       center: true,
       padding: "2rem",
@@ -53,9 +64,6 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
-      fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
-      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -72,5 +80,4 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-};
+})

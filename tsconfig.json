@@ -1,4 +1,6 @@
 {
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".cache", "dist", "public"],
   "compilerOptions": {
     // Enable top-level await, and other modern ESM features.
     "target": "ESNext",
@@ -17,15 +19,17 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@pages/*": ["src/pages/*"],
       "@auth": ["src/auth.ts"],
+      "@components/*": ["src/components/*", "src/components/notion/*"],
       "@env": ["src/env.d.ts"],
-      "@glimpse": ["src/lib/glimpse/*"],
-      "@hooks": ["src/hooks/*"],
-      "@utils": ["src/utils/*"],
-      "@artisan": ["src/lib/artisan/*"]
+      "@layouts/*": ["src/layouts/*"],
+      "@libs/*": ["src/libs/*", "src/libs/artisan/*", "src/libs/blocks/*", "src/libs/glimpse/*", "src/libs/glimpse/blocks/*", "src/libs/glimpse/fields/*", "src/libs/glimpse/process/*"],
+      "@modules/*": ["src/modules/*"],
+      "@pages/*": ["src/pages/*", "src/pages/about/*", "src/pages/api/*", "src/pages/content/*", "src/pages/content/api/*", "src/pages/content/authentication/*", "src/pages/content/crud/*", "src/pages/content/layouts/*", "src/pages/content/pages/*", "src/pages/content/playground/*"],
+      "@styles/*": ["src/styles/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@sv/*": ["src/components/svelte/*"],
     }
   }
 }

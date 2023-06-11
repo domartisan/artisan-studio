@@ -3,6 +3,7 @@
 import * as cheerio from 'cheerio'
 import { LoremIpsum } from 'lorem-ipsum'
 import Frame from '@layouts/frame.astro'
+import DrawerComponent from '@components/Drawer.jsx'
 
 const endpoint = "https://viralcuts.co"
 const { pathname } = Astro.url;
@@ -24,7 +25,7 @@ $('head').append('<script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></s
 
 // Add the 'text-green-500' class to all h1 elements
 $('h1').each(function(i, elem) {
-  $(this).addClass('text-green-500');
+  $(this).addClass('hover:shadow-lg hover:rounded-lg transition-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-green-500 hover:cursor-pointer');
 });
 
 // Check if a main tag exists
@@ -159,6 +160,24 @@ $('script').each(function () {
   }
 })
 
+$('img, svg').each(function () {
+  $(this).attr('onclick', 'toggleDrawer(true)');
+});
+
+ $('head').append(`
+      <script>
+        function toggleDrawer(open) {
+          var drawer = document.getElementById('drawer');
+          if (open) {
+            drawer.style.display = 'block';
+            document.getElementById('drawer-content').innerHTML = document.getElementById('artisan-frame').contentDocument.documentElement.outerHTML;
+          } else {
+            drawer.style.display = 'none';
+          }
+        }
+      </script>
+    `);
+
 $('.loader-component').remove()
 $('.fc-3xgLq').remove();
 
@@ -171,5 +190,6 @@ const Blocks = $('html').html()
 ---
 
 <Frame head={head}>
-  <iframe srcdoc={Blocks} class="w-screen h-screen m-0" />
+  <DrawerComponent Blocks={Blocks} />
 </Frame>
+

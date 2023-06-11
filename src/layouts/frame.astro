@@ -1,5 +1,30 @@
 ---
-
+import 'uno.css'
+import '../styles/global.css'
+import '../styles/mdx.css'
+import Sidebar from '@components/notion/sidebar.astro'
 ---
 
-<slot />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://unpkg.com/vue@next"></script>
+<style id="editor-base">
+  html,
+  iframe,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    shadow: none;
+  }
+</style>
+    </head>
+    <body>
+        <main id="artisan-editor" x-data="{ drawerOpen: false }">
+            <slot />
+        </main>
+    </body>
+</html>
