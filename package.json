@@ -7,17 +7,22 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write ./src"
   },
   "devDependencies": {
     "@astrojs/mdx": "^0.10.0",
-    "@astrojs/react": "^1.0.0",
+    "@astrojs/react": "^1.2.2",
     "@astrojs/tailwind": "^1.0.0",
     "@tailwindcss/typography": "^0.5.4",
     "@types/cookie": "^0.5.1",
+    "@types/react": "^18.2.11",
+    "@types/react-dom": "^18.2.4",
     "astro": "^1.0.6",
     "prettier": "^2.8.8",
-    "prettier-plugin-astro": "^0.10.0"
+    "prettier-plugin-astro": "^0.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@astrojs/markdown-component": "^1.0.1",
@@ -26,6 +31,9 @@
     "@supabase/supabase-js": "^2.0.0-rc.10",
     "@supabase/ui": "^0.36.5",
     "astro-seo": "^0.5.1",
-    "cookie": "^0.5.0"
+    "cheerio": "1.0.0-rc.12",
+    "cookie": "^0.5.0",
+    "jsdom": "^22.1.0",
+    "lodash": "^4.17.21"
   }
 }

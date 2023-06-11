@@ -13,10 +13,19 @@
     "noEmit": true,
     // Enable strict type checking.
     "strict": true,
-    // Error when a value import is only used as a type.
-    "importsNotUsedAsValues": "error",
-
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@pages/*": ["src/pages/*"],
+      "@auth": ["src/auth.ts"],
+      "@env": ["src/env.d.ts"],
+      "@glimpse": ["src/lib/glimpse/*"],
+      "@hooks": ["src/hooks/*"],
+      "@utils": ["src/utils/*"],
+      "@artisan": ["src/lib/artisan/*"]
+    }
   }
 }
