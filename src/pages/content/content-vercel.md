@@ -1,4 +1,3 @@
-
 ### Vercel.
 
 [Vercel](https://vercel.com/) is a platform to deploy frontend apps and static sites. They support most modern Javascript frameworks, such as React, Svelte and Vue. Their onboarding process is great, and I highly recommend them. Read more in the [documentation](https://vercel.com/docs).

@@ -1,7 +1,7 @@
-
 ### Astro.
 
 According to their [website](https://astro.build/), they are
+
 > ... are a web framework for building fast, content-focused websites.
 
 They do this by providing excellent support for either completely static sites (SSG), or using server-side rendering ([SSR](https://astro.build/blog/experimental-server-side-rendering/)). In a way, they are more similar to traditional web frameworks such as PHP and Ruby on Rails, than for example a single page applications written in React.
