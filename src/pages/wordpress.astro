@@ -1,0 +1,108 @@
+---
+// Importing required packages
+import * as cheerio from 'cheerio'
+import { LoremIpsum } from 'lorem-ipsum'
+import Frame from '@/layouts/frame.astro'
+import { uploadFile } from '@/utils/cms/supabase'
+
+const endpoint = 'https://automaticcss.com'
+const { pathname } = Astro.url
+console.log(pathname)
+// Fetching the HTML data
+const data = await fetch(endpoint)
+
+// Getting the HTML text
+const html = await data.text()
+
+// Loading the HTML into cheerio
+const $ = cheerio.load(html)
+
+// Initializing lorem-ipsum generator
+const lorem = new LoremIpsum()
+
+$('link[href]').each((i, el) => {
+    const $el = $(el)
+    const href = $el.attr('href')
+    if (href && !href.startsWith('/') && !href.startsWith('http')) {
+        $el.attr('href', '/' + href)
+    }
+})
+
+// $('link[src], script[src], img[src]').each((i, el) => {
+//     const $el = $(el)
+//     const src = $el.attr('src')
+//     $el.attr('src', endpoint + src)
+// })
+
+// Looping over each selected HTML element and replacing the text
+$('p, h1, h2, h3, h4, h5, h6, li, span').each(function () {
+    const text = $(this).text()
+    // if (!text.toLowerCase().includes('artisan')) {
+    //     const words = text.trim().split(/\s+/).length
+    //     const loripsum = lorem.generateWords(words)
+    //     $(this).text(loripsum)
+    // }
+    $(this).attr('contenteditable', 'true')
+})
+
+// Looping over each div child of '.nav-float-indicator' and replacing it with a 'section'
+// $('.nav-float-indicator > div').each(function () {
+//     const section = $('<section></section>')
+//     section.html($(this).html())
+//     section.attr($(this).attr())
+//     $(this).replaceWith(section)
+// })
+
+// Finding the '#__next' element and replacing it with 'main' if it exists
+// const nextElement = $('#__next')
+
+// if (nextElement.length) {
+//   const main = $('<main></main>')
+//   main.html(nextElement.html())
+//   main.attr(nextElement.attr())
+//   main.attr('id', '__artisan')
+//   main.attr('class', '')
+//   nextElement.replaceWith(main)
+// }
+
+// Looping over each 'link' element and fixing the href
+$('link').each(function () {
+    const href = $(this).attr('href')
+    // add type text/css to link
+    $(this).attr('type', 'text/css')
+    if (href && !href.startsWith('/') && !href.startsWith('http')) {
+        $(this).attr('href', '/' + href)
+    }
+})
+
+// Looping over each element with a 'data-src' attribute and fixing the src
+$('[data-src]').each(function () {
+    const dataSrc = $(this).attr('data-src')
+    if (dataSrc && !dataSrc.startsWith('/') && !dataSrc.startsWith('http')) {
+        $(this).attr('data-src', '/' + dataSrc)
+    }
+})
+
+// Looping over each 'script' element and fixing the src
+$('script').each(function () {
+    const src = $(this).attr('src')
+    if (src && !src.startsWith('/') && !src.startsWith('http')) {
+        $(this).attr('src', '/' + src)
+    }
+})
+
+// $('.nav-float-indicator').remove()
+
+const head = $('head').html()
+
+const Blocks = $('body').html()
+---
+
+<Frame head={head}>
+    <head>
+        <Fragment set:html={head} />
+    </head>
+    <body id="swup">
+        <Fragment set:html={Blocks} />
+    </body>
+</Frame>
