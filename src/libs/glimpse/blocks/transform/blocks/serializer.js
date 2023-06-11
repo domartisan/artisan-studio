@@ -67,7 +67,7 @@ export function serializeAttributes(attributes) {
  * @property {boolean} [isCommentDelimited=true] Whether to output HTML comments around blocks.
  */
 
-/** @typedef {import("./").WPRawBlock} WPRawBlock */
+/** @typedef {import(".").WPRawBlock} WPRawBlock */
 
 /**
  * Serializes a block node into the native HTML-comment-powered block format.
